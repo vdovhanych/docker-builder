@@ -3,11 +3,11 @@
 FROM alpine
 
 # Enable HTTPS support in wget and set nsswitch.conf to make resolution work within containers
-RUN apk add --no-cache --update openssl \
+RUN apk add --no-cache --update openssl git \
   && echo hosts: files dns > /etc/nsswitch.conf
 
 # Download Nix and install it into the system.
-ARG NIX_VERSION=2.3.12
+ARG NIX_VERSION=2.3.15
 RUN wget https://nixos.org/releases/nix/nix-${NIX_VERSION}/nix-${NIX_VERSION}-$(uname -m)-linux.tar.xz \
   && tar xf nix-${NIX_VERSION}-$(uname -m)-linux.tar.xz \
   && addgroup -g 30000 -S nixbld \
@@ -33,6 +33,7 @@ ENV \
     ENV=/etc/profile \
     USER=root \
     PATH=/nix/var/nix/profiles/default/bin:/nix/var/nix/profiles/default/sbin:/bin:/sbin:/usr/bin:/usr/sbin \
+    
     GIT_SSL_CAINFO=/etc/ssl/certs/ca-certificates.crt \
     NIX_SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt \
     NIX_PATH=/nix/var/nix/profiles/per-user/root/channels
