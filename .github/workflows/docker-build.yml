@@ -1,4 +1,4 @@
-name: docker 🏗️ & 🚀
+name: Build and push image to docker hub 🏗️ & 🚀
 
 on:
   push:
